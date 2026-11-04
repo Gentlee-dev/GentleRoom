@@ -182,3 +182,11 @@ revoke execute on function public.list_public_board() from public;
 grant execute on function public.submit_request(text,text,text,text,text,text,text,text) to anon, authenticated;
 grant execute on function public.get_request(text) to anon, authenticated;
 grant execute on function public.list_public_board() to anon, authenticated;
+
+-- 관리자(authenticated) 권한을 명시적으로 부여
+-- ("Automatically expose new tables" 옵션을 꺼도 동작하도록. 실제 접근 범위는 위 RLS 정책이 제한)
+grant usage on schema public to anon, authenticated;
+grant select, update, delete on public.requests     to authenticated;
+grant select                 on public.admins       to authenticated;
+grant select, update         on public.app_settings to authenticated;
+grant execute on function public.is_admin() to authenticated;
